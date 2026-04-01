@@ -65,9 +65,36 @@ export default class MainMenu {
   }
 
   onClick(x, y) {
+    // Mute button
     const b = MUTE_BTN;
     if (x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h) {
       AudioManager.toggleMute();
+      return;
+    }
+
+    // Press-any-key phase — tap anywhere advances
+    if (this._titlePhase === 'press') {
+      this._titlePhase = 'waiting';
+      this._waitTimer  = 0.6;
+      return;
+    }
+
+    // Mode select phase — tap a mode row to select it, double-tap (same row) to confirm
+    if (this._titlePhase === 'menu') {
+      for (let i = 0; i < MODES.length; i++) {
+        const rowY = 178 + i * 14;
+        if (y >= rowY - 10 && y < rowY + 5) {
+          if (this._sel === i) {
+            // Already selected — confirm
+            GameState.mode = MODES[i].id;
+            GameState.charSelectRole = 'player';
+            this._sm.replace('charselect');
+          } else {
+            this._sel = i;
+          }
+          return;
+        }
+      }
     }
   }
 
