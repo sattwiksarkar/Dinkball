@@ -14,7 +14,6 @@ import GameState from '../data/GameState.js';
 import AudioManager from '../data/AudioManager.js';
 import SaveManager from '../data/SaveManager.js';
 import { calculate as calcStars } from './StarRating.js';
-import * as Mobile from '../ui/MobileControls.js';
 
 // Archetype map
 import Pusher     from '../ai/archetypes/Pusher.js';
@@ -249,9 +248,7 @@ export default class MatchManager {
 
     this.hud.update(dt);
 
-    // Keep mobile controls aware of serve state
-    Mobile.setServePhase(this._servePhase);
-
+    // Rally counter
     this.serveUI.aimPos = this._aimPos;
     this.serveUI.targetBox = this._aimBox;
   }
@@ -540,18 +537,13 @@ export default class MatchManager {
     this.hud.draw(ctx, this.score, this.games, this.servingSide, this._rallyCount,
                   this._player1Name || 'Player', this._player2Name || 'CPU');
 
-    // Shot controls hint — shown only on non-touch devices
-    if (!('ontouchstart' in window)) {
-      ctx.save();
-      ctx.fillStyle = 'rgba(255,255,255,0.45)';
-      ctx.font = '6px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText('J:Drive  K:Dink  I:Lob  U:Smash  L:Drop', 160, 238);
-      ctx.restore();
-    }
-
-    // Mobile virtual gamepad (drawn above everything except pause)
-    Mobile.draw(ctx);
+    // Shot controls hint (bottom)
+    ctx.save();
+    ctx.fillStyle = 'rgba(255,255,255,0.45)';
+    ctx.font = '6px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('J:Drive  K:Dink  I:Lob  U:Smash  L:Drop', 160, 238);
+    ctx.restore();
 
     // Pause overlay
     if (this._paused) this._drawPause(ctx);

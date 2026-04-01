@@ -6,22 +6,15 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  min-height: 100dvh;  /* dynamic viewport height — avoids mobile browser chrome */
   overflow: hidden;
 }
 
 #game {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
-  display: block;
-  /* Scale to fill viewport while keeping 4:3.
-     133.33vh = (4/3)*100vh — prevents canvas overflowing in landscape. */
-  width:  min(960px, 100vw, 133.33vh);
+  /* Default 3× scale; CSS clamps to viewport */
+  width: min(960px, 100vw);
+  height: min(720px, 75vw);
   aspect-ratio: 4 / 3;
-  /* Block default touch gestures so touches go to our handlers */
-  touch-action: none;
-  /* Prevent text selection / callout on long-press */
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
+  display: block;
 }

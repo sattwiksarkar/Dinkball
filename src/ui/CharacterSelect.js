@@ -26,22 +26,6 @@ export default class CharacterSelect {
     this._barAnim = 0;
   }
 
-  onClick(x, y) {
-    // Left arrow zone → previous character
-    if (x < 40) { this._sel = (this._sel - 1 + this._chars.length) % this._chars.length; this._barAnim = 0; return; }
-    // Right arrow zone → next character
-    if (x > 280) { this._sel = (this._sel + 1) % this._chars.length; this._barAnim = 0; return; }
-    // Card area → confirm
-    if (x >= 70 && x <= 250 && y >= 28 && y <= 198) { this._confirm(); return; }
-    // Dot indicators → jump to character
-    const total = this._chars.length;
-    const dotStart = 160 - total * 5;
-    for (let i = 0; i < total; i++) {
-      const dx = x - (dotStart + i * 10), dy = y - 210;
-      if (dx * dx + dy * dy < 36) { this._sel = i; this._barAnim = 0; return; }
-    }
-  }
-
   update(dt, keysDown, keysJustPressed) {
     if (this._barAnim < 1.0) this._barAnim = Math.min(1.0, this._barAnim + dt * 5);
 

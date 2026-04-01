@@ -1,7 +1,6 @@
 // MatchScene — thin wrapper around MatchManager for scene integration.
 import MatchManager from '../core/MatchManager.js';
-import GameState    from '../data/GameState.js';
-import { setMatchActive } from './MobileControls.js';
+import GameState from '../data/GameState.js';
 
 export default class MatchScene {
   constructor(sceneManager) {
@@ -10,10 +9,9 @@ export default class MatchScene {
   }
 
   onEnter() {
-    setMatchActive(true);
     this._manager = new MatchManager(
-      (result) => { setMatchActive(false); this._sm.replace('results', result); },
-      ()       => { setMatchActive(false); this._sm.replace('mainmenu'); }
+      (result) => { this._sm.replace('results', result); },
+      ()       => { this._sm.replace('mainmenu'); }
     );
     this._manager.init();
   }
