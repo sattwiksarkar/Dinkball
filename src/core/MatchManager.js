@@ -74,7 +74,8 @@ export default class MatchManager {
     this._time = 0;
     this._aiServeTimer = 0;
 
-    this._paused = false;
+    this._paused       = false;
+    this._showControls = false;
   }
 
   async init() {
@@ -168,14 +169,18 @@ export default class MatchManager {
     // Pause toggle — Escape or P
     if (keysJustPressed.has('Escape') || keysJustPressed.has('KeyP')) {
       this._paused = !this._paused;
+      if (!this._paused) this._showControls = false;
       return;
     }
     if (this._paused) {
-      if (keysJustPressed.has('KeyM')) AudioManager.toggleMute();
-      if (keysJustPressed.has('KeyQ')) {
-        AudioManager.stopMusic();
-        AudioManager.playMenuMusic();
-        if (this.onQuit) this.onQuit();
+      if (keysJustPressed.has('KeyC')) this._showControls = !this._showControls;
+      if (!this._showControls) {
+        if (keysJustPressed.has('KeyM')) AudioManager.toggleMute();
+        if (keysJustPressed.has('KeyQ')) {
+          AudioManager.stopMusic();
+          AudioManager.playMenuMusic();
+          if (this.onQuit) this.onQuit();
+        }
       }
       return;
     }
@@ -546,7 +551,10 @@ export default class MatchManager {
     ctx.restore();
 
     // Pause overlay
-    if (this._paused) this._drawPause(ctx);
+    if (this._paused) {
+      this._drawPause(ctx);
+      if (this._showControls) this._drawControls(ctx);
+    }
   }
 
   _drawPause(ctx) {
@@ -557,7 +565,7 @@ export default class MatchManager {
     ctx.fillRect(0, 0, 320, 240);
 
     // Panel
-    const pw = 160, ph = 108;
+    const pw = 160, ph = 118;
     const px = (320 - pw) / 2, py = (240 - ph) / 2;
     ctx.fillStyle = 'rgba(0,0,0,0.85)';
     ctx.fillRect(px, py, pw, ph);
@@ -589,18 +597,113 @@ export default class MatchManager {
     ctx.fillStyle = AudioManager.isMuted() ? '#ff9966' : 'rgba(255,255,255,0.6)';
     ctx.fillText(muteLabel, 160, py + 70);
 
+    // Controls option
+    ctx.fillStyle = this._showControls ? '#ffd60a' : 'rgba(255,255,255,0.6)';
+    ctx.fillText('C  —  Controls', 160, py + 82);
+
     // Divider
     ctx.strokeStyle = 'rgba(255,255,255,0.2)';
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(px + 12, py + 78);
-    ctx.lineTo(px + pw - 12, py + 78);
+    ctx.moveTo(px + 12, py + 90);
+    ctx.lineTo(px + pw - 12, py + 90);
     ctx.stroke();
 
     // End game option
     ctx.fillStyle = '#ff6666';
     ctx.font = '6px monospace';
-    ctx.fillText('Q  —  End Game (Main Menu)', 160, py + 89);
+    ctx.fillText('Q  —  End Game (Main Menu)', 160, py + 101);
+
+    ctx.restore();
+  }
+
+  _drawControls(ctx) {
+    ctx.save();
+
+    // Full-screen dim behind the panel
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(0, 0, 320, 240);
+
+    // Panel
+    const pw = 220, ph = 190;
+    const px = (320 - pw) / 2, py = (240 - ph) / 2;
+    ctx.fillStyle = 'rgba(5,5,20,0.96)';
+    ctx.fillRect(px, py, pw, ph);
+    ctx.strokeStyle = '#ffd60a';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(px + 0.5, py + 0.5, pw, ph);
+
+    // Title
+    ctx.fillStyle = '#ffd60a';
+    ctx.font = 'bold 9px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('CONTROLS', 160, py + 14);
+
+    // Divider under title
+    ctx.strokeStyle = 'rgba(255,214,10,0.35)';
+    ctx.beginPath();
+    ctx.moveTo(px + 10, py + 19); ctx.lineTo(px + pw - 10, py + 19);
+    ctx.stroke();
+
+    const col1 = px + 14;   // key label x (left-aligned)
+    const col2 = px + 75;   // description x (left-aligned)
+    const sections = [
+      { heading: 'MOVEMENT', items: [
+        ['W / ↑',        'Move up'],
+        ['S / ↓',        'Move down'],
+        ['A / ←',        'Move left'],
+        ['D / →',        'Move right'],
+      ]},
+      { heading: 'SHOTS', items: [
+        ['J',            'Drive'],
+        ['K',            'Dink'],
+        ['I',            'Lob'],
+        ['U',            'Smash'],
+        ['L',            'Drop shot'],
+      ]},
+      { heading: 'SERVE', items: [
+        ['↑↓←→',         'Aim cursor'],
+        ['Space',        'Lock aim / release power'],
+      ]},
+    ];
+
+    ctx.font = '6px monospace';
+    let y = py + 30;
+
+    for (const sec of sections) {
+      // Section heading
+      ctx.fillStyle = '#aaccff';
+      ctx.font = 'bold 6px monospace';
+      ctx.textAlign = 'left';
+      ctx.fillText(sec.heading, col1, y);
+      y += 10;
+
+      ctx.font = '6px monospace';
+      for (const [key, desc] of sec.items) {
+        // Key chip background
+        const kw = ctx.measureText(key).width + 6;
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.fillRect(col1 - 1, y - 6, kw, 8);
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+        ctx.lineWidth = 0.5;
+        ctx.strokeRect(col1 - 1, y - 6, kw, 8);
+
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'left';
+        ctx.fillText(key, col1 + 2, y);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.65)';
+        ctx.fillText(desc, col2, y);
+        y += 11;
+      }
+      y += 4; // gap between sections
+    }
+
+    // Close hint
+    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+    ctx.font = '6px monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('C  —  Close', 160, py + ph - 7);
 
     ctx.restore();
   }
