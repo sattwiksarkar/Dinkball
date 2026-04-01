@@ -1,0 +1,100 @@
+{
+  "characters": [
+    {
+      "id": "rex",
+      "name": "Rex",
+      "description": "Tennis pro. Serve machine.",
+      "stats": { "power": 9, "speed": 5, "kitchen": 4, "consistency": 6, "serve": 8 },
+      "archetype": "Basher",
+      "unlocked": true,
+      "playable": true
+    },
+    {
+      "id": "manda",
+      "name": "Manda",
+      "description": "Table tennis champ. Quick & soft.",
+      "stats": { "power": 4, "speed": 9, "kitchen": 8, "consistency": 7, "serve": 4 },
+      "archetype": "DinkMaster",
+      "unlocked": true,
+      "playable": true
+    },
+    {
+      "id": "big_clive",
+      "name": "Big Clive",
+      "description": "Dink machine. Immovable in kitchen.",
+      "stats": { "power": 5, "speed": 4, "kitchen": 10, "consistency": 9, "serve": 5 },
+      "archetype": "DinkMaster",
+      "unlocked": true,
+      "playable": true
+    },
+    {
+      "id": "suki",
+      "name": "Suki",
+      "description": "Sports science student. All-round game.",
+      "stats": { "power": 6, "speed": 7, "kitchen": 7, "consistency": 7, "serve": 7 },
+      "archetype": "AllRounder",
+      "unlocked": true,
+      "playable": true
+    },
+    {
+      "id": "colonel",
+      "name": "Colonel",
+      "description": "Methodical pusher. Never misses.",
+      "stats": { "power": 5, "speed": 6, "kitchen": 7, "consistency": 10, "serve": 6 },
+      "archetype": "Pusher",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 1
+    },
+    {
+      "id": "net_queen",
+      "name": "Net Queen",
+      "description": "Rules the kitchen with an iron dink.",
+      "stats": { "power": 4, "speed": 7, "kitchen": 10, "consistency": 8, "serve": 5 },
+      "archetype": "DinkMaster",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 2
+    },
+    {
+      "id": "dynamo_dave",
+      "name": "Dynamo Dave",
+      "description": "Car park basher. Pure power.",
+      "stats": { "power": 10, "speed": 6, "kitchen": 3, "consistency": 5, "serve": 8 },
+      "archetype": "Basher",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 3
+    },
+    {
+      "id": "high_ball_harry",
+      "name": "High-Ball Harry",
+      "description": "Rooftop lobber. Counter-punching specialist.",
+      "stats": { "power": 5, "speed": 5, "kitchen": 6, "consistency": 7, "serve": 6 },
+      "archetype": "Lobber",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 4
+    },
+    {
+      "id": "circuit_pro",
+      "name": "Circuit Pro",
+      "description": "Balanced arena veteran. No weak spots.",
+      "stats": { "power": 8, "speed": 8, "kitchen": 8, "consistency": 8, "serve": 8 },
+      "archetype": "AllRounder",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 6
+    },
+    {
+      "id": "champion",
+      "name": "The Champion",
+      "description": "Grand Final. The best there is.",
+      "stats": { "power": 9, "speed": 9, "kitchen": 9, "consistency": 9, "serve": 9 },
+      "archetype": "AllRounder",
+      "unlocked": false,
+      "playable": false,
+      "unlock_tier": 8
+    }
+  ]
+}

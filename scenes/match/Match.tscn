@@ -1,0 +1,39 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/MatchManager.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/match/Court.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/match/Player.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/match/Ball.tscn" id="4"]
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="5"]
+[ext_resource type="Script" path="res://scripts/ui/ServeUI.gd" id="6"]
+[ext_resource type="Script" path="res://scripts/ui/VenueBackdrop.gd" id="7"]
+
+[node name="Match" type="Node2D"]
+script = ExtResource("1")
+
+[node name="VenueBackdrop" type="Node2D" parent="."]
+z_index = -2
+script = ExtResource("7")
+
+[node name="Court" parent="." instance=ExtResource("2")]
+
+[node name="Player1" parent="." instance=ExtResource("3")]
+position = Vector2(160, 190)
+player_side = 1
+
+[node name="Player2" parent="." instance=ExtResource("3")]
+position = Vector2(160, 50)
+player_side = -1
+is_human = false
+
+[node name="Ball" parent="." instance=ExtResource("4")]
+position = Vector2(160, 120)
+
+[node name="HUD" type="Node2D" parent="."]
+z_index = 10
+script = ExtResource("5")
+
+[node name="ServeUI" type="Node2D" parent="."]
+z_index = 9
+visible = false
+script = ExtResource("6")

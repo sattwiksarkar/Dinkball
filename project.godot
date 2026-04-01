@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; but the file format allows this.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Dinkball"
+config/description="16-bit arcade pickleball"
+run/main_scene="res://scenes/menus/MainMenu.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+
+[autoload]
+
+InputSetup="*res://scripts/data/InputSetup.gd"
+GameState="*res://scripts/data/GameState.gd"
+SaveManager="*res://scripts/data/SaveManager.gd"
+CharacterData="*res://scripts/data/CharacterData.gd"
+VenueData="*res://scripts/data/VenueData.gd"
+AudioManager="*res://scripts/data/AudioManager.gd"
+ScreenWipe="*res://scripts/ui/ScreenWipe.gd"
+
+[display]
+
+window/size/viewport_width=320
+window/size/viewport_height=240
+window/size/resizable=true
+window/size/initial_scale=3
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[debug]
+
+gdscript/warnings/treat_warnings_as_errors=false
+gdscript/warnings/infer_variable_type=0
+gdscript/warnings/return_value_discarded=0
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true
